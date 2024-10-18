@@ -37,6 +37,7 @@ export const customStyles = {
         ...provided,
         borderColor: 'transparent',
         border: '0px',
+        boxShadow: 'none'
     }),
     menu: (provided: any) => ({
         ...provided,

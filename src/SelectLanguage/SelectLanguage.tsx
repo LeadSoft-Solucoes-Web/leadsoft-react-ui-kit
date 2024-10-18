@@ -6,17 +6,25 @@ import { LanguageOptionType } from './types';
 
 interface SelectLanguageProps {
     options?: LanguageOptionType[],
+    onChangeValue: (item: LanguageOptionType) => void;
 }
 
 const SelectLanguage: React.FC<SelectLanguageProps> = (props) => {
+    const [flag, setFlag] = useState<any>(null);
 
+    const onChangeSelect = (item: LanguageOptionType) => {
+        setFlag(item?.flag)
+        props.onChangeValue(item);
+    }
+    
     return (
         <Container>
             <ContainerFlag>
-                ---
+                {flag ? flag :
+                    '---'}
             </ContainerFlag>
             <ContainerSelect>
-                <Select options={props.options ? props.options : languageOptions} styles={customStyles}/>
+                <Select isSearchable={false} options={props.options ? props.options : languageOptions} styles={customStyles} onChange={(item)=>onChangeSelect} />
             </ContainerSelect>
         </Container>
     );
