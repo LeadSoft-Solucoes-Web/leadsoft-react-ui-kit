@@ -10,21 +10,24 @@ interface SelectLanguageProps {
 }
 
 const SelectLanguage: React.FC<SelectLanguageProps> = (props) => {
-    const [flag, setFlag] = useState<any>(null);
+    const [itemState, setItemState] = useState<LanguageOptionType | null>(null);
 
-    const onChangeSelect = (item: LanguageOptionType) => {
-        setFlag(item?.flag)
-        props.onChangeValue(item);
+    const onChangeSelect = (item: LanguageOptionType | null) => {
+
+        if (item){
+            setItemState(item)
+            props.onChangeValue(item);
+        }
     }
     
     return (
         <Container>
             <ContainerFlag>
-                {flag ? flag :
+                {itemState ?  `${itemState.flag}`  :
                     '---'}
             </ContainerFlag>
             <ContainerSelect>
-                <Select isSearchable={false} options={props.options ? props.options : languageOptions} styles={customStyles} onChange={(item)=>onChangeSelect} />
+                <Select isSearchable={false} options={props.options ? props.options : languageOptions} styles={customStyles} onChange={(item)=>{onChangeSelect(item)}} />
             </ContainerSelect>
         </Container>
     );
