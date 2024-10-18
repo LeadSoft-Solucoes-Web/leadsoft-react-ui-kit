@@ -28,8 +28,8 @@ export const ContainerSelect = styled.div`
     width: 100%;
     height: auto;
     border: 0px;
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
 `;
 
 export const customStyles = {
@@ -42,6 +42,11 @@ export const customStyles = {
     menu: (provided: any) => ({
         ...provided,
 
+    }),
+    indicatorsContainer: (provided: any) => ({
+        ...provided,
+        height: 'auto',
+        width: 'auto'
     }),
 };
 
