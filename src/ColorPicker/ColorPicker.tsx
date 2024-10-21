@@ -1,64 +1,110 @@
 import React, { useState } from 'react';
-import { ChromePicker, ColorResult } from 'react-color';
-import { AddColorButton, ColorPreview, OpacityWrapper, PickerWrapper, SavedColor, SavedColorsWrapper, Wrapper } from './style';
+import { ColorResult } from 'react-color';
+import {
+  ChronomePickerStyled,
+  SaveButton,
+  ColorPreview,
+  ContainerArrow,
+  ContainerColorPicker,
+  ContainerTextPreview,
+  ContainerWrapper,
+  PickerWrapper,
+  SavedColor,
+  SavedColorsWrapper,
+  SpanColor,
+  Wrapper,
+  CancelButton,
+  ContainerSaveCancelButtons
+} from './style';
+import { IoIosArrowForward, IoIosArrowDown } from "react-icons/io";
 
 interface ColorPickerProps {
-  savedColors?: string[];
   onChange?: (color: string) => void;
+  savedColors?: string[];
+  textSave?: string;
+  textCancel?: string;
+  initColor?: string;
 }
 
-const ColorPicker: React.FC<ColorPickerProps> = ({ savedColors = [], onChange }) => {
-  const [color, setColor] = useState<string>('#4F46E5'); 
-  const [opacity, setOpacity] = useState<number>(100); 
+const ColorPicker: React.FC<ColorPickerProps> = ({ savedColors = [], onChange, textSave, textCancel, initColor }) => {
+  const [color, setColor] = useState<string>(initColor ? initColor : '#4F46E5');
   const [showPicker, setShowPicker] = useState<boolean>(false);
+  const cancelColor = initColor ? initColor : '#4F46E5';
 
   const handleColorChange = (colorResult: ColorResult) => {
-    const rgbaColor = `rgba(${colorResult.rgb.r}, ${colorResult.rgb.g}, ${colorResult.rgb.b}, ${opacity / 100})`;
-    setColor(colorResult.hex);
-    if (onChange) onChange(rgbaColor);
+    let returncolor: string;
+    if (colorResult.rgb.a && colorResult.rgb.a < 1) {
+      returncolor = `rgba(${colorResult.rgb.r}, ${colorResult.rgb.g}, ${colorResult.rgb.b}, ${colorResult.rgb.a})`;
+    } else {
+      returncolor = colorResult.hex;
+    }
+    setColor(returncolor);
+    if (onChange) onChange(returncolor);
   };
 
-  const handleOpacityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setOpacity(parseInt(e.target.value, 10));
-  };
+  const onCancelClicked = ()=>{
+    setColor(cancelColor);
+    setShowPicker(false);
+  }
 
   return (
-    <Wrapper>
-      
-      <ColorPreview
-        onClick={() => setShowPicker(!showPicker)}
-        color={color}
-      />
+    <ContainerColorPicker id='button-color-picker' onClick={() => { setShowPicker(true) }}>
+      <ContainerWrapper>
+        <Wrapper>
+          <ColorPreview
+            color={color}
+          />
+          <PickerWrapper display={showPicker ? 'flex' : 'none'}>
+            <ChronomePickerStyled disableAlpha={false} color={color} onChange={handleColorChange} />
 
-      {showPicker && (
-        <PickerWrapper>
-          <ChromePicker color={color} onChange={handleColorChange} />
+            <SavedColorsWrapper>
+              {savedColors.map((savedColor, index) => (
+                <SavedColor
+                  key={index}
+                  color={savedColor}
+                  onClick={() => setColor(savedColor)}
+                />
+              ))}
+            </SavedColorsWrapper>
+            <ContainerSaveCancelButtons>
+              <CancelButton
+                type={'button'} // Evita que o clique no botão acione o evento no ContainerColorPicker
+                id='button-cancel' // Evita que o clique no botão acione o evento no ContainerColorPicker
+                onClick={(e) => {
+                  e.stopPropagation(); 
+                  onCancelClicked();
+                }}
+              >
+                {textCancel ? textCancel : 'Cancelar'}
+              </CancelButton>
+              <SaveButton
+                type={'button'}
+                id='button-save' // Evita que o clique no botão acione o evento no ContainerColorPicker
+                onClick={(e) => {
+                  e.stopPropagation(); // Evita que o clique no botão acione o evento no ContainerColorPicker
+                  setShowPicker(false);
+                }}
+              >
+                {textSave ? textSave : 'Salvar'}
+              </SaveButton>
 
-          <OpacityWrapper>
-            <label htmlFor="opacity-range">Opacidade: {opacity}%</label>
-            <input
-              type="range"
-              id="opacity-range"
-              min="0"
-              max="100"
-              value={opacity}
-              onChange={handleOpacityChange}
-            />
-          </OpacityWrapper>
-
-          <SavedColorsWrapper>
-            {savedColors.map((savedColor, index) => (
-              <SavedColor
-                key={index}
-                color={savedColor}
-                onClick={() => setColor(savedColor)}
-              />
-            ))}
-            <AddColorButton>+ Add</AddColorButton>
-          </SavedColorsWrapper>
-        </PickerWrapper>
-      )}
-    </Wrapper>
+            </ContainerSaveCancelButtons>
+          </PickerWrapper>
+        </Wrapper>
+      </ContainerWrapper>
+      <ContainerTextPreview>
+        <SpanColor>
+          {color}
+        </SpanColor>
+      </ContainerTextPreview>
+      <ContainerArrow>
+        {showPicker ? (
+          <IoIosArrowDown color='rgb(180, 180, 180)' size={25} />
+        ) : (
+          <IoIosArrowForward color='rgb(180, 180, 180)' size={25} />
+        )}
+      </ContainerArrow>
+    </ContainerColorPicker>
   );
 };
 
