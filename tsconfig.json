@@ -4,13 +4,18 @@
     "module": "ESNext",
     "jsx": "react-jsx",
     "declaration": true,
-    "declarationDir": "./types", 
-    "outDir": "./build",           
+    "declarationDir": "./types",
+    "outDir": "./build",
     "strict": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "lib": ["DOM", "ES2015"] // Adicione esta linha
   },
-  "include": ["src"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/images.d.ts"
+  ]
 }
