@@ -7,7 +7,7 @@ import { FaScissors } from "react-icons/fa6";
 
 interface ImageCropProps {
   startImage?: File | string;
-  onChangeCrop: (imagePreview: string) => void;
+  onChangeCrop?: (imagePreview: string) => void;
 }
 
 const ImageCrop: React.FC<ImageCropProps> = () => {
