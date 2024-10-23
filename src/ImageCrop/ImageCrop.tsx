@@ -6,7 +6,8 @@ import getCroppedImg from '../utils/getCroppedImg';
 import { FaScissors } from "react-icons/fa6";
 
 interface ImageCropProps {
-  src?: string;
+  startImage?: File | string;
+  onChangeCrop: (imagePreview: string) => void;
 }
 
 const ImageCrop: React.FC<ImageCropProps> = () => {
@@ -22,7 +23,7 @@ const ImageCrop: React.FC<ImageCropProps> = () => {
   const [imageRef, setImageRef] = useState<HTMLImageElement | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const MAX_WIDTH = 1800;
+  const MAX_WIDTH = 1200;
   const MAX_HEIGHT = 600;
 
   const handleImageChange = (file: File | string) => {
@@ -71,7 +72,6 @@ const ImageCrop: React.FC<ImageCropProps> = () => {
   const onCompleteCrop = async (crop: Crop) => {
     if (imageRef) {
       const imageCroped = await getCroppedImg(imageRef, crop);
-      console.log(imageCroped)
       setImagePreview(imageCroped)
     }
   }
@@ -84,11 +84,9 @@ const ImageCrop: React.FC<ImageCropProps> = () => {
         onDragOver={handleDragOver}
         id='drop-area'
       >
-        <ContainerButtonConfirm>
-          <ButtonConfirm disabled={!completeCrop && !imagePreview ? true : false} type='button' id='button-confirm-crop' onClick={(e) => { e.stopPropagation() }}>
-            <FaScissors size={20} color={completeCrop && imagePreview ? 'rgb(50, 200, 50)' : 'rgb(140, 140, 140)'} />
-          </ButtonConfirm>
-        </ContainerButtonConfirm>
+        <ButtonConfirm disabled={!completeCrop && !imagePreview ? true : false} type='button' id='button-confirm-crop' onClick={(e) => { e.stopPropagation() }}>
+          <FaScissors size={20} color={completeCrop && imagePreview ? 'rgb(50, 200, 50)' : 'rgb(140, 140, 140)'} />
+        </ButtonConfirm>
         <input
           id="fileInput"
           type="file"
@@ -102,7 +100,7 @@ const ImageCrop: React.FC<ImageCropProps> = () => {
               crop={crop}
               onChange={(newCrop) => setCrop(newCrop)}
               onComplete={(crop) => setCompleteCrop(crop)}
-              style={{ maxWidth: '100%' }}
+              style={{ maxWidth: '100%', zIndex: 2}}
             >
               <PreviewImg
                 src={imagePreview}

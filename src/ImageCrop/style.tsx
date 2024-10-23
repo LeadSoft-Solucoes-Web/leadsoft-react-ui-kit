@@ -13,11 +13,13 @@ export const CropWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1;
 `;
 
 export const PreviewImg = styled.img`
   max-width: 100%;
   height: auto;
+  z-index: 0;
 `;
 
 export const DropArea = styled.div`
@@ -31,7 +33,7 @@ export const DropArea = styled.div`
   text-align: center;
   background-color: #f9f9f9;
   z-index: 0;
-  padding: 10px;
+  padding: 25px;
   position: relative;
   flex-direction: column;
 
@@ -51,8 +53,23 @@ export const ErrorMessage = styled.p`
 `;
 
 export const ButtonConfirm = styled.button`
-  width: 20px;
-  height: 20px;
+  position: absolute;
+  top: -5px;
+  right: -10px;
+  width: 40px;
+  height: 40px;
+  z-index: 999;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &:active {
+    opacity: 0.8;
+  }
 `;
 
 export const ContainerButtonConfirm = styled.button`
