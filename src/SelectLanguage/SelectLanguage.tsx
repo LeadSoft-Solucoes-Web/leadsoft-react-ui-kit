@@ -1,33 +1,36 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, ContainerFlag, ContainerSelect, customStyles } from './style';
 import Select from 'react-select';
 import { languageOptions } from './moc';
 import { LanguageOptionType } from './types';
 
 interface SelectLanguageProps {
-    options?: LanguageOptionType[],
+    options?: LanguageOptionType[];
     onChangeValue: (item: LanguageOptionType) => void;
+    value?: LanguageOptionType;
 }
 
 const SelectLanguage: React.FC<SelectLanguageProps> = (props) => {
-    const [itemState, setItemState] = useState<LanguageOptionType | null>(null);
-
     const onChangeSelect = (item: LanguageOptionType | null) => {
-
-        if (item){
-            setItemState(item)
+        console.log(item)
+        if (item) {
             props.onChangeValue(item);
         }
-    }
-    
+    };
+
     return (
         <Container>
             <ContainerFlag>
-                {itemState ?  `${itemState.flag}`  :
-                    '---'}
+                {props.value ? `${props.value.flag}` : '---'}
             </ContainerFlag>
             <ContainerSelect>
-                <Select isSearchable={false} options={props.options ? props.options : languageOptions} styles={customStyles} onChange={(item)=>{onChangeSelect(item)}} />
+                <Select
+                    isSearchable={false}
+                    value={props.value ? props.value : null}
+                    options={props.options || languageOptions}
+                    styles={customStyles}
+                    onChange={(item) => onChangeSelect(item as LanguageOptionType)}
+                />
             </ContainerSelect>
         </Container>
     );
