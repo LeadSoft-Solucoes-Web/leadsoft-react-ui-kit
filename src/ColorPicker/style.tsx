@@ -6,15 +6,15 @@ import { ChromePicker } from 'react-color';
 export const ContainerColorPicker = styled.div`
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     cursor: pointer;
     border: 2px solid rgb(180,180,180);
     border-radius: 8px;
-    width: auto;
+    width: 100%;
     height: auto;
     position: relative; 
     padding: 5px;
-    width: 100%;
+    max-width: 300px;
 `;
 
 export const ContainerWrapper = styled.div`
@@ -44,7 +44,7 @@ export const ColorPreview = styled.div<ColorType>`
 
 export const PickerWrapper = styled.div<ColorType>`
     position: absolute;
-    z-index: 1000; 
+    z-index: 1050; 
     width: 100%;
     height: auto;
     top: 97%; 
@@ -55,11 +55,11 @@ export const PickerWrapper = styled.div<ColorType>`
     justify-content: center;
     flex-direction: column;
     background-color: ${(props) => props.backgroundPickerWrapper ? props.backgroundPickerWrapper : 'white'};
-    border-color: 15px;
+    border-radius: 15px;
     padding: 5px;
     box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 2px, rgba(0, 0, 0, 0.3) 0px 4px 8px;
-    pointer-events: none;
-    margin-top: 5px;
+    pointer-events: all !important;
+    overflow: visible;
 `;
 
 export const SavedColorsWrapper = styled.div`
