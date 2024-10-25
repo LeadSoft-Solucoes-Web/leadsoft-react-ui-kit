@@ -7,7 +7,7 @@ import { LanguageOptionType } from './types';
 interface SelectLanguageProps {
     options?: LanguageOptionType[];
     onChangeValue: (item: LanguageOptionType) => void;
-    value?: LanguageOptionType;
+    value?: LanguageOptionType | null;
 }
 
 const SelectLanguage: React.FC<SelectLanguageProps> = (props) => {

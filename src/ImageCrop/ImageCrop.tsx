@@ -6,7 +6,7 @@ import getCroppedImg from '../utils/getCroppedImg';
 import { FaScissors } from "react-icons/fa6";
 
 interface ImageCropProps {
-  startImage?: File | string;
+  startImage?: File | string | null;
   onChangeCrop?: (imagePreview: string) => void;
 }
 

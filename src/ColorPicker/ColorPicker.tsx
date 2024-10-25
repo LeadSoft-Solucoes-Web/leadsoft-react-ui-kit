@@ -23,7 +23,7 @@ interface ColorPickerProps {
   savedColors?: string[];
   textSave?: string;
   textCancel?: string;
-  initColor?: string;
+  initColor?: string | null;
 }
 
 const ColorPicker: React.FC<ColorPickerProps> = ({ savedColors = [], onChange, textSave, textCancel, initColor }) => {
