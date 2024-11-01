@@ -3,10 +3,11 @@ import styled from 'styled-components';
 export const Container = styled.div`
     width: 100%;
     height: auto;
-    border: 1px solid rgb(29 91 223);
+    border: 2px solid rgb(180,180,180);;
     border-radius: 8px;
     display: flex;
     flex-direction: row;
+    max-width: 300px;
 `;
 
 export const ContainerFlag = styled.div`
@@ -37,7 +38,8 @@ export const customStyles = {
         ...provided,
         borderColor: 'transparent',
         border: '0px',
-        boxShadow: 'none'
+        boxShadow: 'none',
+        zIndex: 1000 
     }),
     menu: (provided: any) => ({
         ...provided,
@@ -46,7 +48,8 @@ export const customStyles = {
     indicatorsContainer: (provided: any) => ({
         ...provided,
         height: 'auto',
-        width: 'auto'
+        width: 'auto',
+        zIndex: 1000
     }),
 };
 

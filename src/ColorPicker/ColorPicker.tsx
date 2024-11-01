@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { ColorResult } from 'react-color';
 import {
   ChronomePickerStyled,
@@ -23,13 +23,14 @@ interface ColorPickerProps {
   savedColors?: string[];
   textSave?: string;
   textCancel?: string;
-  initColor?: string;
+  initColor?: string | null;
 }
 
 const ColorPicker: React.FC<ColorPickerProps> = ({ savedColors = [], onChange, textSave, textCancel, initColor }) => {
   const [color, setColor] = useState<string>(initColor ? initColor : '#4F46E5');
   const [showPicker, setShowPicker] = useState<boolean>(false);
   const cancelColor = initColor ? initColor : '#4F46E5';
+  const pickerRef = useRef<HTMLDivElement | null>(null);
 
   const handleColorChange = (colorResult: ColorResult) => {
     let returncolor: string;
@@ -42,36 +43,39 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ savedColors = [], onChange, t
     if (onChange) onChange(returncolor);
   };
 
-  const onCancelClicked = ()=>{
+  const onCancelClicked = () => {
     setColor(cancelColor);
     setShowPicker(false);
-  }
+  };
+
+  useEffect(() => {
+    if (showPicker && pickerRef.current) {
+      const picker = pickerRef.current.getBoundingClientRect();
+      if (picker.bottom > window.innerHeight) {
+        pickerRef.current.style.top = `-${picker.height}px`; 
+      }
+    }
+  }, [showPicker]);
 
   return (
     <ContainerColorPicker id='button-color-picker' onClick={() => { setShowPicker(true) }}>
       <ContainerWrapper>
         <Wrapper>
-          <ColorPreview
-            color={color}
-          />
-          <PickerWrapper display={showPicker ? 'flex' : 'none'}>
+          <ColorPreview color={color} />
+          <PickerWrapper ref={pickerRef} display={showPicker ? 'flex' : 'none'}>
             <ChronomePickerStyled disableAlpha={false} color={color} onChange={handleColorChange} />
 
             <SavedColorsWrapper>
               {savedColors.map((savedColor, index) => (
-                <SavedColor
-                  key={index}
-                  color={savedColor}
-                  onClick={() => setColor(savedColor)}
-                />
+                <SavedColor key={index} color={savedColor} onClick={() => setColor(savedColor)} />
               ))}
             </SavedColorsWrapper>
             <ContainerSaveCancelButtons>
               <CancelButton
-                type={'button'} // Evita que o clique no botão acione o evento no ContainerColorPicker
-                id='button-cancel' // Evita que o clique no botão acione o evento no ContainerColorPicker
+                type={'button'}
+                id='button-cancel'
                 onClick={(e) => {
-                  e.stopPropagation(); 
+                  e.stopPropagation();
                   onCancelClicked();
                 }}
               >
@@ -79,23 +83,20 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ savedColors = [], onChange, t
               </CancelButton>
               <SaveButton
                 type={'button'}
-                id='button-save' // Evita que o clique no botão acione o evento no ContainerColorPicker
+                id='button-save'
                 onClick={(e) => {
-                  e.stopPropagation(); // Evita que o clique no botão acione o evento no ContainerColorPicker
+                  e.stopPropagation();
                   setShowPicker(false);
                 }}
               >
                 {textSave ? textSave : 'Salvar'}
               </SaveButton>
-
             </ContainerSaveCancelButtons>
           </PickerWrapper>
         </Wrapper>
       </ContainerWrapper>
       <ContainerTextPreview>
-        <SpanColor>
-          {color}
-        </SpanColor>
+        <SpanColor>{color}</SpanColor>
       </ContainerTextPreview>
       <ContainerArrow>
         {showPicker ? (

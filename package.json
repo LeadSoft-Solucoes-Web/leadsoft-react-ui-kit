@@ -1,10 +1,11 @@
 {
   "name": "leadsoft-react-ui-kit",
-  "version": "1.0.0",
+  "version": "1.0.6",
   "main": "build/index.js",
   "types": "types/index.d.ts",
   "files": [
-    "dist"
+    "build",
+    "types"
   ],
   "exports": {
     ".": {
