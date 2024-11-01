@@ -6,22 +6,24 @@ import getCroppedImg from '../utils/getCroppedImg';
 import { FaScissors } from "react-icons/fa6";
 
 interface ImageCropProps {
-  startImage?: File | string | null;
-  onChangeCrop?: (imagePreview: string) => void;
+  startImage?: string | null;
+  onChangeCrop?: (imagePreview: File) => void;
+  insertImageDescription?: string;
 }
 
-const ImageCrop: React.FC<ImageCropProps> = () => {
+const ImageCrop: React.FC<ImageCropProps> = (props) => {
   const [crop, setCrop] = useState<Crop>({
     unit: '%',
-    x: 25,
-    y: 25,
-    width: 50,
-    height: 50
+    x: 0,
+    y: 0,
+    width: 100,
+    height: 100
   });
   const [completeCrop, setCompleteCrop] = useState<Crop>()
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [imageRef, setImageRef] = useState<HTMLImageElement | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [imageDescription, setImageDescription] = useState<string>("Arraste e solte uma imagem ou clique para selecionar");
 
   const MAX_WIDTH = 1200;
   const MAX_HEIGHT = 600;
@@ -70,11 +72,24 @@ const ImageCrop: React.FC<ImageCropProps> = () => {
   };
 
   const onCompleteCrop = async (crop: Crop) => {
-    if (imageRef) {
-      const imageCroped = await getCroppedImg(imageRef, crop);
-      setImagePreview(imageCroped)
+    if (imagePreview) {
+        const imageCroped = await getCroppedImg(imagePreview, crop);
+
+        if (props.onChangeCrop) {
+            props.onChangeCrop(imageCroped.file);
+        }
     }
-  }
+}
+
+  useEffect(() => {
+    if (props.startImage) {
+      setImagePreview(props.startImage)
+    }
+
+    if (props.insertImageDescription) {
+      setImageDescription(props.insertImageDescription)
+    }
+  }, [])
 
   return (
     <Container>
@@ -84,9 +99,6 @@ const ImageCrop: React.FC<ImageCropProps> = () => {
         onDragOver={handleDragOver}
         id='drop-area'
       >
-        <ButtonConfirm disabled={!completeCrop && !imagePreview ? true : false} type='button' id='button-confirm-crop' onClick={(e) => { e.stopPropagation() }}>
-          <FaScissors size={20} color={completeCrop && imagePreview ? 'rgb(50, 200, 50)' : 'rgb(140, 140, 140)'} />
-        </ButtonConfirm>
         <input
           id="fileInput"
           type="file"
@@ -99,8 +111,11 @@ const ImageCrop: React.FC<ImageCropProps> = () => {
             <ReactCrop
               crop={crop}
               onChange={(newCrop) => setCrop(newCrop)}
-              onComplete={(crop) => setCompleteCrop(crop)}
-              style={{ maxWidth: '100%', zIndex: 2}}
+              onComplete={(crop) => {
+                setCompleteCrop(crop);
+                onCompleteCrop(crop);
+              }}
+              style={{ maxWidth: '100%', zIndex: 2 }}
             >
               <PreviewImg
                 src={imagePreview}
@@ -111,7 +126,7 @@ const ImageCrop: React.FC<ImageCropProps> = () => {
             </ReactCrop>
           </CropWrapper>
         ) : (
-          <p>Arraste e solte uma imagem ou clique para selecionar</p>
+          <p>{imageDescription}</p>
         )}
 
       </DropArea>

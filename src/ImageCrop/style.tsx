@@ -33,7 +33,7 @@ export const DropArea = styled.div`
   text-align: center;
   background-color: #f9f9f9;
   z-index: 0;
-  padding: 25px;
+  padding: 2px;
   position: relative;
   flex-direction: column;
 
