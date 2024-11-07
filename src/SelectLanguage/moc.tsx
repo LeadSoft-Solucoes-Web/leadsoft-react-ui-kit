@@ -2,22 +2,28 @@ import { LanguageOptionType } from "./types";
 
 export const languageOptions: LanguageOptionType[] = [
     {
-        value: 'pt',
+        value: 'pt_BR',
         label: 'Português',
         flag: '🇧🇷',
-        code: 'PT'
+        code: 'PT-BR'
     },
     {
-        value: 'en',
+        value: 'en_US',
         label: 'Inglês',
         flag: '🇺🇸',
         code: 'ING'
     },
     {
-        value: 'fr',
+        value: 'fr_FR',
         label: 'Francês',
         flag: '🇫🇷',
         code: 'FR'
+    },
+    {
+        value: 'es_ES',
+        label: 'Espanhol',
+        flag: '🇪🇸',
+        code: 'ES'
     }
 ];
 
