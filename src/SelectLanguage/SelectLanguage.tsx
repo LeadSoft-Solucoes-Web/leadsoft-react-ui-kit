@@ -11,36 +11,37 @@ interface SelectLanguageProps {
 }
 
 const SelectLanguage: React.FC<SelectLanguageProps> = (props) => {
-    const [valueSelectedState, setValueSelectedState] = useState<LanguageOptionType | null>()
+    const [valueSelectedState, setValueSelectedState] = useState<LanguageOptionType | null | undefined>(null);
 
     const onChangeSelect = (item: LanguageOptionType | null) => {
         if (item) {
             props.onChangeValue(item.value);
+            setValueSelectedState(item); 
         }
     };
 
     const onValue = () => {
-        var valueSelected = null;
-        
-        if(props.options){
-            valueSelected = props.options.find(v => v.value === props.value?.replace('-', '_'))
-        }else{
-            valueSelected = languageOptions.find(v => v.value === props.value?.replace('-', '_'))
+        let valueSelected = null;
+
+        if (props.options) {
+            valueSelected = props.options.find(v => v.value === props.value?.replace('-', '_'));
+        } else {
+            valueSelected = languageOptions.find(v => v.value === props.value?.replace('-', '_'));
         }
 
         return valueSelected;
-    }
+    };
 
-    useEffect(()=>{
-        if (props.value){
-            setValueSelectedState(onValue())
+    useEffect(() => {
+        if (props.value) {
+            setValueSelectedState(onValue());
         }
-    }, []);
-    
+    }, [props.value]);
+
     return (
         <Container>
             <ContainerFlag>
-                {valueSelectedState ? `${valueSelectedState.flag}` : '---'}
+                {valueSelectedState ? valueSelectedState.flag : '---'}
             </ContainerFlag>
             <ContainerSelect>
                 <Select
