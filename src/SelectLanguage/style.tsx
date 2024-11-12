@@ -43,7 +43,7 @@ export const customStyles = {
     }),
     menu: (provided: any) => ({
         ...provided,
-
+        zIndex: 1000
     }),
     indicatorsContainer: (provided: any) => ({
         ...provided,
