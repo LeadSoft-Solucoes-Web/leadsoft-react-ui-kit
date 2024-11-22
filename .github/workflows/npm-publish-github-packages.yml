@@ -1,10 +1,10 @@
 name: Publish to npm
 
 on:
-  pull_request:
-    types: [opened, reopened]
+  push:
     branches:
-      - master 
+      - master
+
 
 jobs:
   publish:
