@@ -22,7 +22,7 @@ const RadioButton: React.FC<RadioButtonProps> = (props) => {
                     checkedColor={props.colorChecked}
                 />
                 <span />
-                {props.label}
+                {props.label} 
             </Label>
         </Container>
     );
