@@ -1,0 +1,42 @@
+name: Publish to npm
+
+on:
+  pull_request:
+    types: [opened, reopened]
+    branches:
+      - master # Certifique-se de que a branch está correta
+
+jobs:
+  publish:
+    name: Publish Package
+    runs-on: ubuntu-latest
+
+    steps:
+      # Passo 1: Checkout do código
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Passo 2: Configurar Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22.11.0'
+          registry-url: https://registry.npmjs.org
+
+      # Passo 3: Autenticar no npm
+      - name: Authenticate with npm
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+
+      # Passo 4: Instalar dependências (se necessário)
+      - name: Install dependencies
+        run: npm install
+
+      # Passo 5: Validar versão do pacote
+      - name: Validate package version
+        run: npm version
+
+      # Passo 6: Publicar no npm
+      - name: Publish to npm
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
