@@ -3,5 +3,6 @@ export type ColorType = {
     colorText?: string;
     backgroundPickerWrapper?: string;
     display?: string;
+    miniComponent?: boolean;
 }
 
