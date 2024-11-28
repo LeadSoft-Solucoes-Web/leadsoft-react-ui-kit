@@ -5,6 +5,7 @@ export const UploadContainer = styled.div<PropertiesStyle>`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   border: 2px dashed gray;
   border-radius: 8px;
   text-align: center;
