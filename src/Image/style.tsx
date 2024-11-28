@@ -1,6 +1,7 @@
 import styled from 'styled-components';
+import { PropertiesStyle } from './types';
 
-export const UploadContainer = styled.div`
+export const UploadContainer = styled.div<PropertiesStyle>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -9,6 +10,8 @@ export const UploadContainer = styled.div`
   text-align: center;
   cursor: pointer;
   padding: 5px;
+  width: 100%;
+  height: ${(props)=>(props.height || 'auto')};
 `;
 
 export const StyledImage = styled.img`
@@ -22,4 +25,10 @@ export const StyledImage = styled.img`
 
 export const UploadButton = styled.input`
   display: none;
+`;
+
+export const ErrorMessage = styled.p`
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
 `;

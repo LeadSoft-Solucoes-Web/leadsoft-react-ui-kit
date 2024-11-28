@@ -27,7 +27,7 @@ export const Container = styled.div<ColorsType>`
         opacity: 0;
         pointer-events: none;
         transition: opacity 0.3s, bottom 0.3s;
-        z-index: 1000;
+        z-index: 1010;
     }
 
     &:hover::after {

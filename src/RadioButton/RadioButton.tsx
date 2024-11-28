@@ -6,17 +6,18 @@ interface RadioButtonProps {
     onClick: () => void;
     label: string;
     colorChecked?: string;  
+    name: string;
 }
 
 const RadioButton: React.FC<RadioButtonProps> = (props) => {
     return (
         <Container>
-            <Label htmlFor="option">
+            <Label htmlFor={props.name}>
                 <Input
                     type="radio"
-                    id="option"
-                    name="option"
-                    value="option"
+                    id={props.name}
+                    name={props.name}
+                    value={props.name}
                     checked={props.checked}
                     onClick={props.onClick}
                     checkedColor={props.colorChecked}
