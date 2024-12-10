@@ -32,6 +32,9 @@ const ImageCrop: React.FC<ImageCropProps> = (props) => {
     if (typeof file === 'string') {
       setImagePreview(file);
     } else {
+      if (imagePreview) {
+        URL.revokeObjectURL(imagePreview);
+      }
       const imageUrl = URL.createObjectURL(file);
       setImagePreview(imageUrl);
     }
@@ -73,13 +76,21 @@ const ImageCrop: React.FC<ImageCropProps> = (props) => {
 
   const onCompleteCrop = async (crop: Crop) => {
     if (imagePreview) {
-        const imageCroped = await getCroppedImg(imagePreview, crop);
+      const imageCroped = await getCroppedImg(imagePreview, crop);
 
-        if (props.onChangeCrop) {
-            props.onChangeCrop(imageCroped.file);
-        }
+      if (props.onChangeCrop) {
+        props.onChangeCrop(imageCroped.file);
+      }
     }
-}
+  }
+
+  useEffect(() => {
+    return () => {
+      if (imagePreview) {
+        URL.revokeObjectURL(imagePreview);
+      }
+    };
+  }, [imagePreview]);
 
   useEffect(() => {
     if (props.startImage) {
@@ -121,6 +132,7 @@ const ImageCrop: React.FC<ImageCropProps> = (props) => {
                 src={imagePreview}
                 alt="Preview"
                 id='preview-image'
+
                 onLoad={onImageLoad}
               />
             </ReactCrop>
