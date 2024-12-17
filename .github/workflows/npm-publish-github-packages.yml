@@ -29,7 +29,10 @@ jobs:
 
       - name: Validate package version
         run: npm version
-
+        
+      - name: Building Project
+        run: npm run build 
+        
       - name: Publish to npm
         run: npm publish --access public
         env:
