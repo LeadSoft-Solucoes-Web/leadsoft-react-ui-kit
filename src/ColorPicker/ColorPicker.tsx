@@ -89,8 +89,8 @@ const ColorPicker: React.FC<ColorPickerProps> = (
               <CancelButton
                 type={'button'}
                 id='button-cancel'
-                backgroundColor={saveButtonColor}
-                color={textSaveColor}
+                backgroundColor={cancelButtonColor}
+                color={textCancelColor}
                 onClick={(e) => {
                   e.stopPropagation();
                   onCancelClicked();
@@ -101,8 +101,8 @@ const ColorPicker: React.FC<ColorPickerProps> = (
               <SaveButton
                 type={'button'}
                 id='button-save'
-                backgroundColor={cancelButtonColor}
-                color={textCancelColor}
+                backgroundColor={saveButtonColor}
+                color={textSaveColor}
                 onClick={(e) => {
                   e.stopPropagation();
                   setShowPicker(false);
