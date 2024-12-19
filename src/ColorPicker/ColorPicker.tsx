@@ -24,9 +24,24 @@ interface ColorPickerProps {
   textSave?: string;
   textCancel?: string;
   initColor?: string | null;
+  saveButtonColor?: string;
+  cancelButtonColor?: string;
+  textSaveColor?: string;
+  textCancelColor?: string;
 }
 
-const ColorPicker: React.FC<ColorPickerProps> = ({ savedColors = [], onChange, textSave, textCancel, initColor }) => {
+const ColorPicker: React.FC<ColorPickerProps> = (
+  {
+    savedColors = [],
+    onChange,
+    textSave,
+    textCancel,
+    initColor,
+    saveButtonColor,
+    cancelButtonColor,
+    textSaveColor,
+    textCancelColor
+  }) => {
   const [color, setColor] = useState<string>(initColor ? initColor : '#4F46E5');
   const [showPicker, setShowPicker] = useState<boolean>(false);
   const cancelColor = initColor ? initColor : '#4F46E5';
@@ -52,7 +67,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ savedColors = [], onChange, t
     if (showPicker && pickerRef.current) {
       const picker = pickerRef.current.getBoundingClientRect();
       if (picker.bottom > window.innerHeight) {
-        pickerRef.current.style.top = `-${picker.height}px`; 
+        pickerRef.current.style.top = `-${picker.height}px`;
       }
     }
   }, [showPicker]);
@@ -74,6 +89,8 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ savedColors = [], onChange, t
               <CancelButton
                 type={'button'}
                 id='button-cancel'
+                backgroundColor={saveButtonColor}
+                color={textSaveColor}
                 onClick={(e) => {
                   e.stopPropagation();
                   onCancelClicked();
@@ -84,6 +101,8 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ savedColors = [], onChange, t
               <SaveButton
                 type={'button'}
                 id='button-save'
+                backgroundColor={cancelButtonColor}
+                color={textCancelColor}
                 onClick={(e) => {
                   e.stopPropagation();
                   setShowPicker(false);

@@ -39,7 +39,7 @@ export const customStyles = {
         borderColor: 'transparent',
         border: '0px',
         boxShadow: 'none',
-        zIndex: 1000 
+        zIndex: 1000
     }),
     menu: (provided: any) => ({
         ...provided,
@@ -50,7 +50,6 @@ export const customStyles = {
         height: 'auto',
         width: 'auto',
         zIndex: 1000
-    }),
+    })
 };
-
 

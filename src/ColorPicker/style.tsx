@@ -106,13 +106,13 @@ export const ContainerSaveCancelButtons = styled.div`
     width: 100%;
 `
 
-export const SaveButton = styled.a`
+export const SaveButton = styled.a<{ backgroundColor?: string; color?: string; }>`
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 17px;
-    color: white;
-    background-color: #4F46E5;
+    color: ${props => props.color || 'white'};
+    background-color: ${props => props.backgroundColor || '#1267f8'} ;
     font-weight: bold;
     width: 100%;
     height: 40px;
@@ -126,13 +126,13 @@ export const SaveButton = styled.a`
     }
 `;
 
-export const CancelButton = styled.a`
+export const CancelButton = styled.a<{ backgroundColor?: string; color?: string; }>`
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 17px;
-    color: white;
-    background-color: #E18E39;
+    color: ${props => props.color || 'black'};
+    background-color: ${props => props.backgroundColor || 'transparent'} ;
     font-weight: bold;
     width: 100%;
     height: 40px;

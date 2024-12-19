@@ -8,6 +8,8 @@ interface SelectLanguageProps {
     options?: LanguageOptionType[];
     onChangeValue: (item: string) => void;
     value?: string | null;
+    selectedColor?: string;
+    hoverColor?: string;
 }
 
 const SelectLanguage: React.FC<SelectLanguageProps> = (props) => {
@@ -16,7 +18,7 @@ const SelectLanguage: React.FC<SelectLanguageProps> = (props) => {
     const onChangeSelect = (item: LanguageOptionType | null) => {
         if (item) {
             props.onChangeValue(item.value);
-            setValueSelectedState(item); 
+            setValueSelectedState(item);
         }
     };
 
@@ -38,6 +40,21 @@ const SelectLanguage: React.FC<SelectLanguageProps> = (props) => {
         }
     }, [props.value]);
 
+    const dynamicStyles = {
+        ...customStyles,
+        option: (provided: any, state: any) => ({
+            ...provided,
+            backgroundColor: state.isSelected
+                ? props.selectedColor || 'rgba(100, 149, 237, 0.8)'
+                : state.isFocused
+                    ? props.hoverColor || 'rgba(135, 206, 250, 0.5)'
+                    : 'white',
+            color: state.isSelected ? 'white' : 'black',
+            cursor: 'pointer',
+            zIndex: 1000
+        }),
+    };
+
     return (
         <Container>
             <ContainerFlag>
@@ -48,7 +65,7 @@ const SelectLanguage: React.FC<SelectLanguageProps> = (props) => {
                     isSearchable={false}
                     value={valueSelectedState}
                     options={props.options || languageOptions}
-                    styles={customStyles}
+                    styles={dynamicStyles}
                     onChange={(item) => onChangeSelect(item as LanguageOptionType)}
                 />
             </ContainerSelect>
