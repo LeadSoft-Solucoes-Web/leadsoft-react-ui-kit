@@ -10,6 +10,8 @@ interface ImageUploaderProps {
   limitMp?: string;
   noLimit?: boolean;
   messageLimitError?: string;
+  maxHeight?: number;
+  maxWidth?: number;
 }
 
 const ImageUploader: React.FC<ImageUploaderProps> = ({
@@ -20,18 +22,19 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   height,
   noLimit,
   messageLimitError,
+  maxHeight,
+  maxWidth
 }) => {
   const [imageSrc, setImageSrc] = useState<string | null | undefined>(
     initImage instanceof File ? URL.createObjectURL(initImage) : initImage
   );
   const [error, setError] = useState<string | null>(null);
 
-  const MAX_WIDTH = 177;
-  const MAX_HEIGHT = 53;
-
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
+
+    console.log(maxHeight, maxWidth, 'ola')
 
     const img = new Image();
     const objectUrl = URL.createObjectURL(file);
@@ -40,15 +43,17 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
       const width = img.width;
       const height = img.height;
 
-      if (!noLimit && (width > MAX_WIDTH || height > MAX_HEIGHT)) {
-        setError(
-          messageLimitError
-            ? messageLimitError
-            : `Não é possível carregar uma imagem maior que ${MAX_WIDTH} x ${MAX_HEIGHT}.`
-        );
-        setTimeout(() => setError(null), 6000);
-        URL.revokeObjectURL(objectUrl);
-        return;
+      if (maxHeight && maxWidth) {
+        if (!noLimit && (width > maxWidth || height > maxHeight)) {
+          setError(
+            messageLimitError
+              ? messageLimitError
+              : `Não é possível carregar uma imagem maior que ${maxWidth} x ${maxHeight}.`
+          );
+          setTimeout(() => setError(null), 6000);
+          URL.revokeObjectURL(objectUrl);
+          return;
+        }
       }
 
       setImageSrc(objectUrl);
@@ -61,7 +66,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
       setTimeout(() => setError(null), 6000);
       URL.revokeObjectURL(objectUrl);
     };
-    
+
     img.src = objectUrl;
   };
 
